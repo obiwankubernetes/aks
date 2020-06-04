@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deploy
+spec:
+  selector:
+      matchLabels:
+        app: example-app
+  replicas: 3
+  template:
+      metadata:
+        labels:
+            app: example-app
+      spec:
+        containers:
+        - name: example-app
+          image: obiwankubernetes/pyaks:1.0.0
+          imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              port: 5000
+              path: /
+          livenessProbe:
+            httpGet:
+              port: 5000
+              path: /
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
